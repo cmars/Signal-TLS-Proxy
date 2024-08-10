@@ -1,0 +1,31 @@
+app = 'signal-tls-proxy-cmars-tech'
+primary_region = 'fra'
+
+[build]
+  dockerfile = 'docker-nginx/Dockerfile'
+
+[[files]]
+  local_path = 'data/nginx-relay/nginx.conf'
+  guest_path = '/usr/conf.d/nginx.conf'
+
+[[services]]
+  protocol = 'tcp'
+  internal_port = 4433
+
+  [[services.ports]]
+    handlers = ['tls']
+    port = 443
+
+  [[services.ports]]
+    handlers = ['http']
+    port = 80
+    force_https = true
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "5s"
+
+[[vm]]
+  size = 'shared-cpu-1x'

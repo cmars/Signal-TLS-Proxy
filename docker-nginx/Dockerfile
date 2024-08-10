@@ -2,3 +2,5 @@
 # If https://github.com/dependabot/dependabot-core/issues/390 is addressed, we
 # can just inline this into docker-compose.yml
 FROM nginx:1.26.1-alpine
+
+CMD ["/usr/sbin/nginx", "-c", "/usr/conf.d/nginx.conf", "-g", "daemon off;"]
